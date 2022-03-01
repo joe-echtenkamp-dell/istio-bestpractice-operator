@@ -33,9 +33,8 @@ func main() {
 	// setup request to proxy server
 	req, err := http.NewRequest("GET", serverUrl, nil)
 	if err != nil {
-		log.Fatal("Failed to create new request.")
+		log.Print("Failed to create new request.")
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	// add requestid
@@ -45,16 +44,14 @@ func main() {
 	resp, err := client.Do(req)
 	if err != nil {
 		// this is for actual failures, not non-2** codes
-		log.Fatal("Failed to make request to proxy")
+		log.Print("Failed to make request to server")
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	if resp.StatusCode == http.StatusOK {
 		// this is a problem, as we shouldnt be able to access the server directly
-		log.Fatal("Can access the time-server, which should violate allow-nothing policy")
+		log.Print("Can access the time-server, which should violate allow-nothing policy")
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	// defer resp.Body.Close()
@@ -71,9 +68,8 @@ func main() {
 	// setup request to proxy server
 	req, err = http.NewRequest("GET", proxyUrl, nil)
 	if err != nil {
-		log.Fatal("Failed to create new request.")
+		log.Print("Failed to create new request.")
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	// add requestid
@@ -82,9 +78,8 @@ func main() {
 	// send request to proxy
 	resp, err = client.Do(req)
 	if err != nil {
-		log.Fatal("Failed to make request to proxy")
+		log.Print("Failed to make request to proxy")
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	defer resp.Body.Close()
@@ -95,14 +90,12 @@ func main() {
 	returnVal, proxyOk := resp.Header[reqIdHeaderKey]
 
 	if !proxyOk {
-		log.Fatal("proxy didnt return x-request-id")
+		log.Print("proxy didnt return x-request-id")
 		log.Fatal(err.Error())
-		os.Exit(1)
 	}
 
 	if returnVal[0] != uuidWithHyphen.String() {
 		log.Fatal("proxy returned different x-request-id")
-		os.Exit(1)
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////
 
