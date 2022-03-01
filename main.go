@@ -50,8 +50,8 @@ func main() {
 
 	if resp.StatusCode == http.StatusOK {
 		// this is a problem, as we shouldnt be able to access the server directly
-		log.Print("Can access the time-server, which should violate allow-nothing policy")
-		log.Fatal(err.Error())
+		log.Fatal("Can access the time-server, which should violate allow-nothing policy")
+		//log.Fatal(err.Error())
 	}
 
 	// defer resp.Body.Close()
@@ -90,8 +90,8 @@ func main() {
 	returnVal, proxyOk := resp.Header[reqIdHeaderKey]
 
 	if !proxyOk {
-		log.Print("proxy didnt return x-request-id")
-		log.Fatal(err.Error())
+		log.Fatal("proxy didnt return x-request-id")
+		//log.Fatal(err.Error())
 	}
 
 	if returnVal[0] != uuidWithHyphen.String() {
