@@ -1,2 +1,2 @@
-# -istio-unittest
-Unit Test Runner for testing the Existents of Network policies
+# istio-unittest
+Unit Test Runner for testing Network polices applied to Istio/K8s clusters
